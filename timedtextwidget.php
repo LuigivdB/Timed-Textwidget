@@ -4,7 +4,10 @@ Plugin Name: Timed Textwidget
 Description: Display your textwidget on a set time.
 Author URI: http://newborndesign.be
 Author: Luigi van den Borne
-Version: 1.0.0
+Version: 1.1.0
+Requires at least: 5.3
+Requires PHP: 7.4
+Tested up to: 6.8
 */
 
 /*  Copyright 2014  Luigi van den Borne  (email : luigi@newborndesign.be)
@@ -26,7 +29,7 @@ Version: 1.0.0
 defined('ABSPATH') or die();
 
 global $TimedTextWidget_version;
-$TimedTextWidget_version = "1.0.0";
+$TimedTextWidget_version = "1.1.0";
 
 class TimedTextWidget extends WP_Widget{
 
@@ -45,38 +48,38 @@ class TimedTextWidget extends WP_Widget{
 /* Output */
 	function widget($args, $instance){
 		
-		extract($args, EXTR_SKIP);
+		$before_widget = isset( $args['before_widget'] ) ? $args['before_widget'] : '';
+		$after_widget = isset( $args['after_widget'] ) ? $args['after_widget'] : '';
+		$before_title = isset( $args['before_title'] ) ? $args['before_title'] : '';
+		$after_title = isset( $args['after_title'] ) ? $args['after_title'] : '';
 	
 		$title = isset( $instance['title'] ) ? $instance['title']: '';
 		$description = isset( $instance['description'] ) ? esc_attr( $instance['description'] ) : '';
 		$start_time = isset( $instance['start_time'] ) ? esc_attr( $instance['start_time'] ) : '';
 		$end_time = isset( $instance['end_time'] ) ? esc_attr( $instance['end_time'] ) : '';
-		$mon = is_string( $instance[ 'monday' ] ) ? esc_attr( $instance[ 'monday' ] ) : '1';
-		$tue = is_string( $instance[ 'tuesday' ] ) ? esc_attr( $instance[ 'tuesday' ] ) : '2';
-		$wed = is_string( $instance[ 'wednesday' ] ) ? esc_attr( $instance[ 'wednesday' ] ) : '3';
-		$thu = is_string( $instance[ 'thursday' ] ) ? esc_attr( $instance[ 'thursday' ] ) : '4';
-		$fri = is_string( $instance[ 'friday' ] ) ? esc_attr( $instance[ 'friday' ] ) : '5';
-		$sat = is_string( $instance[ 'saturday' ] ) ? esc_attr( $instance[ 'saturday' ] ) : '6';
-		$sun = is_string( $instance[ 'sunday' ] ) ? esc_attr( $instance[ 'sunday' ] ) : '7';
+		$mon = isset( $instance[ 'monday' ] ) && is_string( $instance[ 'monday' ] ) ? esc_attr( $instance[ 'monday' ] ) : '1';
+		$tue = isset( $instance[ 'tuesday' ] ) && is_string( $instance[ 'tuesday' ] ) ? esc_attr( $instance[ 'tuesday' ] ) : '2';
+		$wed = isset( $instance[ 'wednesday' ] ) && is_string( $instance[ 'wednesday' ] ) ? esc_attr( $instance[ 'wednesday' ] ) : '3';
+		$thu = isset( $instance[ 'thursday' ] ) && is_string( $instance[ 'thursday' ] ) ? esc_attr( $instance[ 'thursday' ] ) : '4';
+		$fri = isset( $instance[ 'friday' ] ) && is_string( $instance[ 'friday' ] ) ? esc_attr( $instance[ 'friday' ] ) : '5';
+		$sat = isset( $instance[ 'saturday' ] ) && is_string( $instance[ 'saturday' ] ) ? esc_attr( $instance[ 'saturday' ] ) : '6';
+		$sun = isset( $instance[ 'sunday' ] ) && is_string( $instance[ 'sunday' ] ) ? esc_attr( $instance[ 'sunday' ] ) : '7';
 
 		$dayarray = array( $mon,$tue,$wed,$thu,$fri,$sat,$sun );
 
-
-		// set WP timezone
-		$gmt_offset = get_option( 'gmt_offset' );
-		$timezone = date_default_timezone_get();
-		date_default_timezone_set('Etc/GMT'.(($gmt_offset < 0)?'+':'').-$gmt_offset);
-		$day = date('N');
-		$time = date('H:i', time());
+		// Use WordPress timezone functions
+		$current_datetime = current_datetime();
+		$day = $current_datetime->format('N');
+		$time = $current_datetime->format('H:i');
 		
 		// echo widget
 		if(in_array($day, $dayarray)){
 			if ( $time >= $start_time && $time < $end_time || $start_time == $end_time ) {
 				
-				echo $args['before_widget'];
+				echo $before_widget;
 				if ( $title != '' ) { echo $before_title.$title.$after_title; }
 				echo '<p>'.$description.'</p>';
-				echo $args['after_widget'];
+				echo $after_widget;
 			}
 		}
 	}
