@@ -1,9 +1,10 @@
 === Timed Textwidget ===
 Contributors: LuigivdB
 Tags: content, date, display, hide, widget, schedule, show, time, timed, timer
-Requires at least: 3.4
-Tested up to: 3.9.2
-Stable tag: trunk
+Requires at least: 5.3
+Tested up to: 6.8
+Stable tag: 1.1.0
+Requires PHP: 7.4
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -44,5 +45,14 @@ Just go to the support forum and ask away! I\'ll try to answer as soon as possib
 1. http://www.newborndesign.be/timedtextwidget/timed-text-widget.jpg
 
 == Changelog ==
-1.0.0
+= 1.1.0 =
+- Fixed compatibility with WordPress 6.7+ and PHP 8.3
+- Replaced deprecated extract() usage with explicit variable assignment
+- Replaced date_default_timezone_set() with WordPress current_datetime() function
+- Fixed missing $before_title and $after_title variables
+- Added missing CSS file
+- Updated minimum WordPress version to 5.3
+- Updated minimum PHP version to 7.4
+
+= 1.0.0 =
 - Initial release

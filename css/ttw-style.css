@@ -1,0 +1,28 @@
+/* Timed Textwidget Styles */
+.ttw-form {
+	margin: 10px 0;
+}
+
+.ttw-form .col-4,
+.ttw-form .col-6 {
+	display: inline-block;
+	margin-bottom: 10px;
+}
+
+.ttw-form .col-4 {
+	width: 33%;
+}
+
+.ttw-form .col-6 {
+	width: 48%;
+	margin-right: 2%;
+}
+
+.ttw-form .col-4.first,
+.ttw-form .col-6.first {
+	clear: both;
+}
+
+.ttw-form .timer {
+	max-width: 100px;
+}
